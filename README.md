@@ -6,4 +6,4 @@ Health application that monitor patients remotely. There are four types of users
 the app: patients, medical professionals, administrators and developers. 
 
 # Project Plan
-- health app plan is at this [link] (https://docs.google.com/document/d/1CUC7uYHHLEFkz3GPRT_QOUC417daMQfkl-G9ej55-Hw/edit#)
+- health app plan is at this [link](https://docs.google.com/document/d/1CUC7uYHHLEFkz3GPRT_QOUC417daMQfkl-G9ej55-Hw/edit#)
