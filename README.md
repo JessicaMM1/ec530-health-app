@@ -7,3 +7,6 @@ the app: patients, medical professionals, administrators.
 
 # Project Plan
 - health app plan is at this [link](https://docs.google.com/document/d/1CUC7uYHHLEFkz3GPRT_QOUC417daMQfkl-G9ej55-Hw/edit#)
+
+## User Interface
+- Repository for React Native mobile user interface can be found [here](https://github.com/JessicaMM1/health-mobile)
