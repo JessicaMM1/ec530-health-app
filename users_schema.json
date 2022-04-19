@@ -1,0 +1,134 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "basicInfo": {
+            "$ref": "#/definitions/BasicInfo"
+        },
+        "role": {
+            "type": "string",
+            "enum": [
+                "doctor",
+                "patient"
+            ]
+        },
+        "attributes": {
+            "type": "object"
+        }
+    },
+    "required": [
+        "role",
+        "basicInfo"
+    ],
+    "if": {
+        "properties": {
+            "role": {
+                "const": "doctor"
+            }
+        }
+    },
+    "then": {
+        "properties": {
+            "attributes": {
+                "$ref": "#/definitions/Doctor"
+            }
+        }
+    },
+    "else": {
+        "properties": {
+            "attributes": {
+                "$ref": "#/definitions/Patient"
+            }
+        }
+    },
+    "definitions": {
+        "Doctor": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "patients": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "patients"
+            ],
+            "title": "Doctor"
+        },
+        "Patient": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "gender": {
+                    "type": "string"
+                },
+                "DOB": {
+                    "type": "string"
+                },
+                "assigned_doctor": {
+                    "type": "string"
+                },
+                "devices": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "medical_info": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/MedicalInfo"
+                    }
+                }
+            },
+            "required": [
+                "DOB",
+                "assigned_doctor",
+                "medical_info"
+            ],
+            "title": "Patient"
+        },
+        "MedicalInfo": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "medication": {
+                    "type": "string"
+                },
+                "illness": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "illness",
+                "medication"
+            ],
+            "title": "MedicalInfo"
+        },
+        "BasicInfo": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "userID": {
+                    "type": "integer"
+                },
+                "first_name": {
+                    "type": "string"
+                },
+                "last_name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "first_name",
+                "last_name",
+                "userID"
+            ],
+            "title": "BasicInfo"
+        }
+    }
+}
