@@ -1,4 +1,5 @@
 # User Module
+
 from jsonschema import Draft7Validator
 import json
 import uuid
@@ -22,9 +23,10 @@ class Doctor(User):
         self.patients = []
 
     def add_patient(self,patient):
-        print("Adding patient ",patient.userID, " to list")
+        print("Adding patient ",patient.userID, " to list\n")
         self.patients.append(patient)
 
+        print("Updated patient list: ")
         for i in self.patients:
             print(i.__dict__)
 
@@ -45,54 +47,90 @@ class Patient(User):
         self.my_devices = None
        
 
-class UserFactory:
-
-    def json_validation(input_json):
-        '''
-            I might need to convert input_json to dict with json.load()
-        '''
-        # add json validator here
-        with open("users_schema.json", "r") as f:
-            schema = json.load(f)
-        print(type(schema))
+def json_validation(input_json):
+    '''
+        I might need to convert input_json to dict with json.load()
+    '''
+    print("json validation")
+    # add json validator here
+    with open("users_schema.json", "r") as f:
+        schema = json.load(f) # schema is dictionary
+    # print(type(schema))
         # print(schema)
-        Draft7Validator.check_schema(schema)     # verify schema
+    Draft7Validator.check_schema(schema)     # verify schema
 
         # Draft7Validator.check_schema(json.load(open("users_schema.json")))
-        validator = Draft7Validator(schema)
-        error_list = list(validator.iter_errors(input_json))
-        print(error_list)    # prints list of errors
+    validator = Draft7Validator(schema)
+    error_list = list(validator.iter_errors(input_json))
+    print(error_list)    # prints list of errors
 
         # Draft7Validator(schema).validate(test)    # throws exceptions
         
         # return dictionary or None if invalid (would be better to throw exceptions)
-        if error_list:
-            return None
-        # else:
-        #     return input_json_dict
+    if error_list:
+        print("Error list")
+        return error_list, 400
+    else:
+        return input_json, 1
+        # return input_json_dict
+    
+    '''
+    Alternate function that creates user with given JSON:
+    '''
+
+# class UserFactory:
+
+def create_user(json_input):
+    # Adds unique 
+    # res_dict can be the validated json or the list of errors
+    # adds unique user id
+    res_dict, code = json_validation(json_input)
+
+    if code is not 400:
+        res_dict['basicInfo']['userID'] = str(uuid.uuid4())[0:8]
+    return res_dict
+
+    # if res_dict is None:
+    #     print("res_dict is None")
+    #     return
+    # else:
+    #     # try:
+    #     user_role = res_dict['role']
+    #     basic_info = res_dict['basicInfo']
+    #     attributes = res_dict['attributes']
+    # # except KeyError:
+    #     #     print("key error")
+
+    #     if user_role == "doctor":
+    #         new_doc = Doctor(basic_info['first_name'], basic_info['last_name'], user_role)
+    #         new_doc.patients = attributes['patients']
+    #         # print("attributes ", attributes['patients'])
+    #         return new_doc
+    #     elif user_role == "patient":
+    #         new_pat = Patient(basic_info['first_name'], basic_info['last_name'], user_role)
+            
+    #         try:
+    #             new_pat.dob = attributes['DOB']
+    #             new_pat.my_doctor = attributes['assigned_doctor']
+    #             new_pat.medical_info = attributes['medical_info']
+    #         except:
+    #             print("Error info")
+    #         return new_pat
 
 
-   
+def find_user(user):
+
+    return "hello" + str(user)
+
+
+      
+'''
+    # Alternate function that creates user with given role:
+
+
     def create_user(user_role):
         # This function creates user according to role
-        '''
-            Alternate function that creates user with given JSON:
-            def create_user(json_input):
-                res_dict = json_validation(json_input)
 
-                if res_dict is None:
-                    return
-                else:
-                    user_role = res_dict['role']
-                    basic_info = res_dict['basicInfo']
-                     if user_role == "doctor":
-                        return Doctor(basic_info['first_name'], basic_info['last_name'], user_role)
-                    elif user_role == "patient":
-                        return Patient("Benito", "Bodoque", user_role)
-
-
-        
-        '''
         # res_dict = json_validation(json_input)
         # create user based on role & fill in attributes from dict
         # user_role = res_dict['role']
@@ -101,21 +139,12 @@ class UserFactory:
             return Doctor("Juana", "Banana", user_role)
         elif user_role == "patient":
             return Patient("Benito", "Bodoque", user_role)
+'''
 
 
-# user_doc = UserFactory.create_user("doctor")
-# print(user_doc.__dict__)
-
-# user_patient1 = UserFactory.create_user("patient")
-# print(user_patient1.__dict__)
-# user_patient2 = UserFactory.create_user("patient")
-# print(user_patient2.__dict__)
-# user_doc.add_patient(user_patient1)
-# user_doc.add_patient(user_patient2)
-
-test = {
+test_patient = {
         "basicInfo": {
-            "userID": 123,
+            # "userID": 123,
             "first_name": "Juana",
             "last_name": "Banana"
         },
@@ -134,6 +163,18 @@ test = {
                 }
             ]
         }       
+}
+
+test_doc = {
+        "basicInfo": {
+            "userID": 123,
+            "first_name": "Chucho",
+            "last_name": "Perez"
+        },
+        "role": "doctor",
+        "attributes": {
+            "patients": ["343", "123"]
+        }   
 }
 
 # *** VALID patient JSON ***
@@ -165,8 +206,8 @@ test = {
 # {
 #         "basicInfo": {
 #             "userID": 123,
-#             "first_name": "Juana",
-#             "last_name": "Banana"
+#             "first_name": "Joe",
+#             "last_name": "Smith"
 #         },
 #         "role": "doctor",
 #         "attributes": {
@@ -177,6 +218,27 @@ test = {
 
 
 
+# Testing functions
+# user_doc = UserFactory.create_user("doctor")
+# print(type(user_doc))
+# print(user_doc.__dict__)
+
+# user_patient1 = UserFactory.create_user("patient")
+# print(user_patient1.__dict__)
+# user_patient2 = UserFactory.create_user("patient")
+# print(user_patient2.__dict__)
+# user_doc.add_patient(user_patient1)
+
+# print(user_doc.__dict__)
+# user_doc.add_patient(user_patient2)
+
+# user_docj = UserFactory.create_user(test_doc)
+# print(user_docj.__dict__)
+
+user_patj = create_user(test_patient)
+print(user_patj)
+
+'''
 with open("users_schema.json", "r") as f:
     schema = json.load(f)   # schema is dict
     # print(schema)
@@ -192,7 +254,7 @@ error_list = list(validator.iter_errors(test))
 
 print(error_list)  
 # Draft7Validator(schema).validate(test)
-
+'''
 
 
 # # User
