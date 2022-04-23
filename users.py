@@ -4,6 +4,42 @@ from jsonschema import Draft7Validator
 import json
 import uuid
 
+# from marshmallow import Schema, fields
+
+# # Create marshmallow schemas
+
+# BasicInfoSchema = Schema.from_dict( {
+#             "userID": fields.Int(),
+#             "first_name": fields.Str(),
+#             "last_name": fields.Str()
+#         })
+
+# DoctorSchema = Schema.from_dict(
+#     {
+#     "basicInfo": fields.Nested(BasicInfoSchema),
+#     "role": fields.Str(),
+#     "attributes": {
+#         "patients": ["343", "123"]
+#     }
+#     }
+# )
+
+# PatientSchema = Schema.from_dict(
+#     {
+#     "basicInfo": {
+#             "userID": fields.Int(),
+#             "first_name": fields.Str(),
+#             "last_name": fields.Str()
+#         },
+#     "role": fields.Str(),
+#     "attributes": {
+#             "DOB": fields.Str(),
+#             "assigned_doctor": fields.Str()}
+#     }
+# )
+
+
+
 
 class User:
 
@@ -84,10 +120,30 @@ def create_user(json_input):
     # Adds unique 
     # res_dict can be the validated json or the list of errors
     # adds unique user id
+
+    # print("\n CREATE USER\n")
+    # print(args)
+
+    # MARSHMALLOW 
+    # if args['role'] == "doctor":
+    #     new_user = Doctor(args['f_name'], args['l_name'], args['role'])
+    #     schema = DoctorSchema()
+    #     # new_doc.patients = attributes['patients']
+    #     # print("attributes ", attributes['patients'])
+    #     # return new_doc
+    # elif args['role'] == "patient":
+    #     new_user = Patient(args['f_name'], args['l_name'], args['role'])
+    #     schema = PatientSchema()
+
+    # result = schema.dump(new_user)
+    # print("\n NEW USER")
+    # print(result, "\n")
+    # print(new_user.__dict__)
+
     res_dict, code = json_validation(json_input)
 
     if code is not 400:
-        res_dict['basicInfo']['userID'] = str(uuid.uuid4())[0:8]
+        res_dict['basicInfo']['_id'] = str(uuid.uuid4())[0:8]
     return res_dict
 
     # if res_dict is None:
@@ -218,7 +274,7 @@ test_doc = {
 
 
 
-# Testing functions
+# DRIVER CODE - Testing functions
 # user_doc = UserFactory.create_user("doctor")
 # print(type(user_doc))
 # print(user_doc.__dict__)
@@ -235,8 +291,10 @@ test_doc = {
 # user_docj = UserFactory.create_user(test_doc)
 # print(user_docj.__dict__)
 
-user_patj = create_user(test_patient)
-print(user_patj)
+# marshmallow
+# args = {'f_name': 'rhett', 'l_name': 'terrier', 'role': 'doctor', 'patient': None, 'DOB': None, 'assigned_doctor': None}
+# user_patj = create_user(test_doc, args)
+# print(user_patj)
 
 '''
 with open("users_schema.json", "r") as f:
