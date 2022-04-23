@@ -1,6 +1,12 @@
+#mongodb
+import certifi
+from pymongo import MongoClient
+import pymongo
+###########################
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
 from users import create_user, find_user
+from jsonschema import Draft7Validator
 import json
 
 
@@ -39,6 +45,11 @@ class restWeb(Resource):
             # 'Password': args['password']
         }
         response = create_user(userInfo, args)
+
+        #print(response)
+
+        
+
         if isinstance(response,list):
         #userinfo = json.dumps(userInfo, indent=4)
         #print(userinfo)
@@ -46,6 +57,18 @@ class restWeb(Resource):
             errors["code"] = 400
             return errors, 400
         else: 
+            try:
+                CONNECTION_STRING = "mongodb+srv://ec530user:ec530pw@cluster0.o2gut.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+                client = pymongo.MongoClient(CONNECTION_STRING, tlsCAFile=certifi.where())
+                db = client.healthapp
+                dbname = client['healthapp']
+                collection_name = dbname["user_profile"]
+
+                collection_name.insert_one(response)
+
+            except:
+                errors = {"message": "mongodb failure"}
+
             return response, 200
 
 #curl -X POST http://127.0.0.1:5000/users?name=rhett&type=doctor&gender=male&accName=rt123&password=123456
