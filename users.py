@@ -142,8 +142,8 @@ def create_user(json_input):
 
     res_dict, code = json_validation(json_input)
 
-    if code is not 400:
-        res_dict['basicInfo']['_id'] = str(uuid.uuid4())[0:8]
+    if code != 400:
+        res_dict['_id'] = str(uuid.uuid4())[0:8]
     return res_dict
 
     # if res_dict is None:
@@ -173,6 +173,26 @@ def create_user(json_input):
     #             print("Error info")
     #         return new_pat
 
+def decideRole(role, dob, assignDoc):
+    try:
+        if role == 'doctor':
+            attributes = {
+                # "patients": args['patients']
+                "patients": []
+            }
+
+        elif role == 'patient': 
+
+            attributes = {
+                "DOB": dob,
+                "assigned_doctor": assignDoc,
+            }
+
+        return attributes
+    except:
+        return {}
+        #return {'message': 'No attributes'}
+        #print("No attributes")
 
 def find_user(user):
 

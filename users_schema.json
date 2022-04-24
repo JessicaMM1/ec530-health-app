@@ -15,12 +15,20 @@
         },
         "attributes": {
             "type": "object"
+        },
+        "username": {
+            "type": "string"
+        },
+        "password": {
+            "type": "string"
         }
     },
     "required": [
         "role",
         "basicInfo",
-        "attributes"
+        "attributes",
+        "username",
+        "password"
     ],
     "if": {
         "properties": {
