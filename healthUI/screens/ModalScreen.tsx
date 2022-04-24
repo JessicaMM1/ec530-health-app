@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Platform, StyleSheet, Button, TextInput, SafeAreaView } from 'react-native';
-import { Picker } from '@react-native-picker/picker'
+// import { Picker } from '@react-native-picker/picker'
 
 import { Text, View } from '../components/Themed';
 
@@ -19,7 +18,7 @@ export default function ModalScreen() {
 
   const [firstName, onChangefn] = React.useState(null);
   const [lastName, onChangeln] = React.useState(null);
-  const [checked, setChecked] = React.useState('first');
+  // const [checked, setChecked] = React.useState('first');
   const navigation = useNavigation<authScreenProp>();
 
   return (
@@ -27,8 +26,8 @@ export default function ModalScreen() {
       <View style={styles.titlePos}>
         <Text style={styles.title}>Modal</Text>
       </View>
-
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+
 
       <SafeAreaView style={styles.safeAreaPos}>
         <TextInput
@@ -48,8 +47,8 @@ export default function ModalScreen() {
         />
       </SafeAreaView>
 
-      <View>
-        {/* <RadioButton
+      {/* <View> */}
+      {/* <RadioButton
           value="first"
           status={checked === 'first' ? 'checked' : 'unchecked'}
           onPress={() => setChecked('first')}
@@ -60,11 +59,12 @@ export default function ModalScreen() {
           onPress={() => setChecked('second')}
         /> */}
 
-        <Picker>
+      {/* <Picker>
           <Picker.Item label="Doctor" value="Doctor" />
           <Picker.Item label="Patient" value="Patient" />
-        </Picker>
-      </View>
+        </Picker> */}
+
+      {/* </View> */}
       < Button title="Complete Registration" onPress={() => navigation.navigate('Root')} />
 
       {/* Use a light status bar on iOS to account for the black space above the modal */}
@@ -72,7 +72,6 @@ export default function ModalScreen() {
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -90,12 +89,11 @@ const styles = StyleSheet.create({
   },
   separator: {
     marginVertical: 15,
-    height: 1,
-    width: '80%',
   },
+
   safeAreaPos: {
     alignItems: 'center',
-    marginTop: 10
+    marginTop: 10,
   },
   input: {
     height: 40,
