@@ -1,15 +1,10 @@
-from ast import arg
-from typing import Dict
-from attr import attr
 #mongodb
 import certifi
-from pymongo import MongoClient
 import pymongo
+
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
-from users import create_user, find_user, decideRole
-from jsonschema import Draft7Validator
-import json
+from users import create_user, decideRole
 
 
 app = Flask(__name__)
@@ -19,7 +14,7 @@ CONNECTION_STRING = "mongodb+srv://ec530user:ec530pw@cluster0.o2gut.mongodb.net/
 client = pymongo.MongoClient(CONNECTION_STRING, tlsCAFile=certifi.where())
 db = client.healthapp
 dbname = client['healthapp']
-#collection_name = dbname["user_profile"]
+
 
 class restWeb(Resource):
     def get(self):
@@ -75,7 +70,6 @@ class restWeb(Resource):
         parser.add_argument("f_name", required=True, type=str, location='form')
         parser.add_argument("l_name", required=True, type=str, location='form')
         parser.add_argument('role', required=True, type=str, location='form')
-        # parser.add_argument('attributes', required=True, type=str, location='form')
         parser.add_argument('patients', required=False, type=str, location='form', action='append')
         parser.add_argument('DOB', required=False, type=str, location='form')
         parser.add_argument('assigned_doctor', required=False, type=str, location='form')
@@ -138,11 +132,3 @@ api.add_resource(restWeb, '/users')
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-'''
-To do
-How to request the api from react
-How to identify doctor or patient
-Do I need request parser if I already validate JSON schema?
-'''
