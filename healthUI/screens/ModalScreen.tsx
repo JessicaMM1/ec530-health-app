@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Platform, StyleSheet, Button, TextInput, SafeAreaView } from 'react-native';
-// import { Picker } from '@react-native-picker/picker'
+import { Platform, StyleSheet, Button, TextInput, SafeAreaView, Alert } from 'react-native';
 
+// import { Picker } from '@react-native-picker/picker'
+import { CheckBox } from 'react-native-elements';
 import { Text, View } from '../components/Themed';
 
 // Navigation
@@ -10,21 +11,46 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../types';
 // import { RadioButton } from '../components/RadioButton';
+
 // import { RadioButton } from 'react-native-paper';
 
 export default function ModalScreen() {
 
   type authScreenProp = StackNavigationProp<RootStackParamList, 'Modal'>;
 
-  const [firstName, onChangefn] = React.useState(null);
-  const [lastName, onChangeln] = React.useState(null);
-  // const [checked, setChecked] = React.useState('first');
   const navigation = useNavigation<authScreenProp>();
+
+  // Text boxes
+  const [firstName, setFirstName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
+
+  // Radio button
+  // const [checked, setChecked] = React.useState('first');
+
+  const [isDoctor, setDoctor] = useState(false);
+  const [isPatient, setPatient] = useState(false);
+  const [role, setRole] = useState("");
+
+  const roleDoctor = () => {
+    setDoctor(true);
+    setPatient(false);
+    setRole("doctor")
+  }
+  const rolePatient = () => {
+    setDoctor(false);
+    setPatient(true);
+    setRole("patient")
+  }
+
+  const completeRegistration = () => {
+    navigation.navigate('Root');
+    Alert.alert("Registered!\n" + role + "\n" + firstName + "\n" + lastName)
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.titlePos}>
-        <Text style={styles.title}>Modal</Text>
+        <Text style={styles.title}>Register</Text>
       </View>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
 
@@ -32,24 +58,52 @@ export default function ModalScreen() {
       <SafeAreaView style={styles.safeAreaPos}>
         <TextInput
           style={styles.input}
-          onChangefn={onChangefn}
           value={firstName}
+          onChangeText={setFirstName}
           placeholder="First name"
           keyboardType='default'
         />
 
+        <Text>{firstName}</Text>
         <TextInput
           style={styles.input}
-          onChangeln={onChangeln}
           value={lastName}
+          onChangeText={setLastName}
           placeholder="Last name"
           keyboardType='default'
         />
       </SafeAreaView>
 
-      {/* <View> */}
-      {/* <RadioButton
+      <View>
+
+        <CheckBox
+          title="Doctor"
+          checked={isDoctor}
+          checkedIcon='dot-circle-o'
+          uncheckedIcon='circle-o'
+          onPress={roleDoctor}
+        />
+
+        <CheckBox
+          title="Patient"
+          checked={isPatient}
+          checkedIcon='dot-circle-o'
+          uncheckedIcon='circle-o'
+          onPress={rolePatient}
+        />
+
+
+
+
+        {/* <RadioButton
+          value='first'
+          selected={isSelected}
+        />
+        <RadioButton /> */}
+        {/* 
+        <RadioButton
           value="first"
+          selected={true}
           status={checked === 'first' ? 'checked' : 'unchecked'}
           onPress={() => setChecked('first')}
         />
@@ -58,14 +112,18 @@ export default function ModalScreen() {
           status={checked === 'second' ? 'checked' : 'unchecked'}
           onPress={() => setChecked('second')}
         /> */}
-
-      {/* <Picker>
+        {/* <Picker>
           <Picker.Item label="Doctor" value="Doctor" />
           <Picker.Item label="Patient" value="Patient" />
         </Picker> */}
 
-      {/* </View> */}
-      < Button title="Complete Registration" onPress={() => navigation.navigate('Root')} />
+      </View>
+      {/* < Button title="Complete Registration" onPress={() => navigation.navigate('Root')} /> */}
+
+      < Button title="Submit" onPress={completeRegistration} />
+
+
+
 
       {/* Use a light status bar on iOS to account for the black space above the modal */}
       <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
