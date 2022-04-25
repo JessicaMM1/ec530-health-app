@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Button, Platform, StyleSheet, SafeAreaView, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, Button, Platform, StyleSheet, SafeAreaView, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../types';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -13,8 +13,8 @@ function AuthScreen() {
     const navigation = useNavigation<authScreenProp>();
 
     //const UselessTextInput = () => {
-    const [textAcc, onChangeAcc] = React.useState(null);
-    const [textPw, onChangePw] = React.useState(null);
+    const [textAcc, onChangeAcc] = React.useState("");
+    const [textPw, onChangePw] = React.useState("");
 
     const login = () => {
         fetch('https://example.com/data').then((response) => response.json()).then((json) => {
@@ -24,7 +24,9 @@ function AuthScreen() {
         });
     }
 
-
+    const test_login = () => {
+        Alert.alert(textAcc + "\n" + textPw)
+    }
 
     return (
         <View style={styles.container}>
@@ -35,22 +37,22 @@ function AuthScreen() {
                 <SafeAreaView style={styles.safeAreaPos}>
                     <TextInput
                         style={styles.input}
-                        onChangeAcc={onChangeAcc}
+                        onChangeText={onChangeAcc}
                         value={textAcc}
-                        placeholder="username"
+                        placeholder="Username"
                         keyboardType="default"
                     />
 
                     <TextInput
                         style={styles.input}
-                        onChangePw={onChangePw}
+                        onChangeText={onChangePw}
                         value={textPw}
-                        placeholder="password"
+                        placeholder="Password"
                         keyboardType="default"
                     />
                 </SafeAreaView>
 
-                <TouchableOpacity style={styles.loginbutton} onPress={login}>
+                <TouchableOpacity style={styles.loginbutton} onPress={test_login}>
 
                     <Text style={styles.loginText}>LOGIN</Text>
 
@@ -93,6 +95,8 @@ const styles = StyleSheet.create({
         margin: 12,
         borderWidth: 1,
         padding: 10,
+        borderRadius: 10,
+        width: 150
     },
     safeAreaPos: {
         alignItems: 'center',
