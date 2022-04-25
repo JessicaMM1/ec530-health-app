@@ -16,9 +16,20 @@ function AuthScreen() {
     const [textAcc, onChangeAcc] = React.useState("");
     const [textPw, onChangePw] = React.useState("");
 
+    // const login = () => {
+    //     fetch('https://example.com/data').then((response) => response.json()).then((json) => {
+
+    //         return data.names;
+    //     }).catch((error) => {
+    //         console.error(error);
+    //     });
+    // }
+
     const login = () => {
-        fetch('https://example.com/data').then((response) => response.json()).then((json) => {
-            return data.names;
+        //fetch('https://example.com/data').then((response) => response.json()).then((json) => {
+        fetch('https://example.com/data').then((response) => {
+            console.log(response)
+            // return data.names;
         }).catch((error) => {
             console.error(error);
         });
@@ -52,7 +63,7 @@ function AuthScreen() {
                     />
                 </SafeAreaView>
 
-                <TouchableOpacity style={styles.loginbutton} onPress={test_login}>
+                <TouchableOpacity style={styles.loginbutton} onPress={login}>
 
                     <Text style={styles.loginText}>LOGIN</Text>
 

@@ -1,0 +1,8 @@
+flask
+flask_restful
+gunicorn
+certifi
+pymongo
+jsonschema
+dnspython
+pymongo[srv]
