@@ -1,18 +1,15 @@
 import React from 'react';
-import { View, Text, Button, Platform, StyleSheet, SafeAreaView, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../types';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { StatusBar } from 'expo-status-bar';
-// import { Platform, StyleSheet, SafeAreaView, TextInput, Button, TouchableOpacity } from 'react-native';
-// import { RootStackParamList } from '../RootStackParams';
 
+// Navigation
 type authScreenProp = StackNavigationProp<RootStackParamList, 'Auth'>;
 
 function AuthScreen() {
     const navigation = useNavigation<authScreenProp>();
 
-    //const UselessTextInput = () => {
     const [textAcc, onChangeAcc] = React.useState("");
     const [textPw, onChangePw] = React.useState("");
 
@@ -27,23 +24,41 @@ function AuthScreen() {
 
     const login = () => {
         //fetch('https://example.com/data').then((response) => response.json()).then((json) => {
-        fetch('https://example.com/data').then((response) => {
-            console.log(response)
-            // return data.names;
+        fetch('https://health-app-2022.ue.r.appspot.com/users').then((response) => {
+
+            return response.json()
+
+        }).then((data) => {
+            var uprofile
+            var darr = Object.values(data);
+            for (const elem of darr) {
+                console.log("NEW ELEM")
+                console.log(elem)
+
+                if (elem["username"] == textAcc && elem["password"] == textPw) {
+                    console.log("Found user")
+                    console.log(elem)
+                    uprofile = elem
+                    return uprofile
+                }
+            }
+            // var collection = data[0]
+            // console.log(collection["basicInfo"]["first_name"])
+        }).then((userprofile) => {
+            if (userprofile == null) {
+                Alert.alert("Incorrect username or password")
+            } else {
+                navigation.navigate('Root')
+            }
         }).catch((error) => {
             console.error(error);
         });
-    }
-
-    const test_login = () => {
-        Alert.alert(textAcc + "\n" + textPw)
     }
 
     return (
         <View style={styles.container}>
             <View style={styles.titlePosition}>
                 <Text style={styles.title}>Log in</Text>
-
 
                 <SafeAreaView style={styles.safeAreaPos}>
                     <TextInput
@@ -52,6 +67,7 @@ function AuthScreen() {
                         value={textAcc}
                         placeholder="Username"
                         keyboardType="default"
+                        autoCapitalize='none'
                     />
 
                     <TextInput
@@ -60,6 +76,7 @@ function AuthScreen() {
                         value={textPw}
                         placeholder="Password"
                         keyboardType="default"
+                        autoCapitalize='none'
                     />
                 </SafeAreaView>
 

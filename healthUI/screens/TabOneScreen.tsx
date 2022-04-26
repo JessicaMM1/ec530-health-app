@@ -1,3 +1,5 @@
+// User profile page
+
 import { StyleSheet } from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
@@ -9,7 +11,14 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
     <View style={styles.container}>
       <Text style={styles.title}>User Profile</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
+
+      {/* <View>
+        <Text>Welcome {username}</Text>
+        <Text>{f_name}</Text>
+        <Text>{l_name}</Text>
+        <Text>{role}</Text>
+        <Text>{dob}</Text>
+      </View> */}
     </View>
   );
 }
