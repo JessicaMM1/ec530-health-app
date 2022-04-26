@@ -19,11 +19,16 @@ export default function ModalScreen() {
   // Text boxes
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
+  const [dob, setDob] = React.useState("");
 
   // Radio button
   const [isDoctor, setDoctor] = useState(false);
   const [isPatient, setPatient] = useState(false);
   const [role, setRole] = useState("");
+
+  // Login info text boxes
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
   const roleDoctor = () => {
     setDoctor(true);
@@ -37,13 +42,84 @@ export default function ModalScreen() {
   }
 
   // Util functions
-  const completeRegistration = () => {
+  const createUser = (bodyString: string) => {
+    fetch("https://health-app-2022.ue.r.appspot.com/users", {
+      // body: "f_name=poland&l_name=spring&role=patient&DOB=02/02/2000&assigned_doctor=dr.strange&username=polo&password=6789",
+      // body: "f_name=warren&l_name=towers&role=doctor&username=warrt&password=123",
+      body: bodyString,
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      method: "POST"
+    }).then((response) => {
+      var statusCode = response.status
+      console.log(response.status)
+      if (statusCode == 200) {
+        Alert.alert("Registration completed. Please log in")
+        navigation.navigate('Auth');
+      }
+    });
+  }
 
-    // Add error checking 
-    navigation.navigate('Root');
-    Alert.alert("Registered!\n" + role + "\n" + firstName + "\n" + lastName)
+  const register = () => {
 
-    // call POST /users
+    var bodyBuilder = []
+
+    if (role == 'doctor') {
+      bodyBuilder.push(
+        "f_name=",
+        String(firstName),
+        "&l_name=",
+        String(lastName),
+        "&role=",
+        String(role),
+        "&username=",
+        String(username),
+        "&password=",
+        String(password),
+      );
+    }
+    else if (role == 'patient') {
+      bodyBuilder.push(
+        "f_name=",
+        String(firstName),
+        "&l_name=",
+        String(lastName),
+        "&role=",
+        String(role),
+        "&DOB=",
+        String(dob),
+        "&assigned_doctor=Dr. Rhett Terrier",
+        // String(assigned_doctor),
+        "&username=",
+        String(username),
+        "&password=",
+        String(password)
+      );
+    }
+
+    var bodyString = bodyBuilder.join("")
+    console.log("bodyString: " + bodyString);
+
+    fetch('https://health-app-2022.ue.r.appspot.com/users').then((response) => {
+
+      return response.json()
+
+    }).then((data) => {
+
+      var uprofile
+      var darr = Object.values(data);
+      for (const elem of darr) {
+
+        console.log(elem)
+
+        if (elem["username"] == username) {
+          Alert.alert("Username Already Exists")
+          return
+        }
+      }
+      createUser(bodyString)
+    })
   }
 
   return (
@@ -68,6 +144,15 @@ export default function ModalScreen() {
           onChangeText={setLastName}
           placeholder="Last name"
           keyboardType='default'
+        />
+
+        <TextInput
+          style={styles.input}
+          value={dob}
+          onChangeText={setDob}
+          placeholder="DOB: mm/dd/yyyy"
+          keyboardType='default'
+          maxLength={10}
         />
       </SafeAreaView>
 
@@ -95,7 +180,31 @@ export default function ModalScreen() {
         />
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={completeRegistration}>
+      <Text style={styles.text}>Enter new login information:</Text>
+      <SafeAreaView style={styles.safeAreaPos}>
+        <TextInput
+          style={styles.input}
+          value={username}
+          onChangeText={setUsername}
+          placeholder="Username"
+          keyboardType='default'
+          autoCapitalize='none'
+          autoCorrect={false}
+          maxLength={10}
+        />
+
+        <TextInput
+          style={styles.input}
+          value={password}
+          onChangeText={setPassword}
+          placeholder="Password"
+          keyboardType='default'
+          autoCapitalize='none'
+          autoCorrect={false}
+        />
+      </SafeAreaView>
+
+      <TouchableOpacity style={styles.button} onPress={register}>
         <Text style={styles.title}>SUBMIT</Text>
       </TouchableOpacity>
 
@@ -117,15 +226,15 @@ const styles = StyleSheet.create({
   },
   titlePos: {
     alignItems: 'center',
-    marginTop: 40
+    marginTop: 20
   },
   separator: {
-    marginVertical: 10,
+    marginVertical: 5,
   },
   safeAreaPos: {
     alignItems: 'center',
-    marginVertical: 15,
-    marginBottom: 30
+    marginTop: 5,
+    marginBottom: 20
   },
   input: {
     height: 40,
@@ -148,7 +257,7 @@ const styles = StyleSheet.create({
     width: '40%',
     backgroundColor: 'lightskyblue',
     padding: 10,
-    marginVertical: 20,
+    marginTop: 15,
     borderRadius: 15
   },
   text: {
