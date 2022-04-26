@@ -1,6 +1,3 @@
-from ast import arg
-from typing import Dict
-from attr import attr
 #mongodb
 import certifi
 from pymongo import MongoClient
@@ -29,40 +26,47 @@ class restWeb(Resource):
         Output: 
             - JSON with user profile, 200 (success)
         '''
-        parser = reqparse.RequestParser()
-        parser.add_argument("username", required=True, type=str, location='form')
-        parser.add_argument("password", required=True, type=str, location='form')
+        userinfo = {}
+        #parser = reqparse.RequestParser()
+        #parser.add_argument("username", required=True, type=str, location='form')
+        #parser.add_argument("password", required=True, type=str, location='form')
         
-        args = parser.parse_args()
+        #args = parser.parse_args()
 
-        print(args)
-        username = args['username']
-        password = args['password']
+        #print(args)
+        #username = args['username']
+        #password = args['password']
 
         collection_name = dbname["user_profile"]
 
         item_details = collection_name.find()
-        #for item in item_details:
+        for i, item in enumerate(item_details):
         # This does not give a very readable output
+            userinfo[i] = item
             #print(item)
-
+        #print(userinfo)
         #print(collection_name)
-        userinfo = collection_name.find_one({
-                "username": username,
-                "password": password
-        })
+        # userinfo = collection_name.find_one({
+        #         "username": username,
+        #         "password": password
+        # })
         
-        if userinfo is None:
-            userinfo = {'message': 'User not found'}
+        # if userinfo is None:
+        #     userinfo = {'message': 'User not found'}
+        
+        if item_details is None:
+            item_details = {'message': 'User not found'}
             
             #return {'message': 'User Not Found'}
-        
 
-        print(userinfo)
-        return userinfo, 200
+        # print(userinfo)
+        return userinfo
+        
+        # print(item_details)
+        # return item_details, 200
 
     #  curl -X GET -d 'username=rhetty_terrier' -d  'password=12121' http://127.0.0.1:5000/users   
-
+# curl -X GET http://127.0.0.1:5000/users/?username=hello&password=bye
 # curl -d 'username=rhetty_TERRIER' http://127.0.0.1:5000/users
 
         # return create_user("userInfo_1290381.json", "903810847"), 200
