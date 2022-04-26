@@ -26,6 +26,7 @@ function AuthScreen() {
         //fetch('https://example.com/data').then((response) => response.json()).then((json) => {
         fetch('https://health-app-2022.ue.r.appspot.com/users').then((response) => {
 
+            // Returns Promise
             return response.json()
 
         }).then((data) => {
@@ -48,7 +49,9 @@ function AuthScreen() {
             if (userprofile == null) {
                 Alert.alert("Incorrect username or password")
             } else {
-                navigation.navigate('Root')
+                navigation.navigate('Root', {
+                    username: textAcc
+                })
             }
         }).catch((error) => {
             console.error(error);
@@ -68,6 +71,7 @@ function AuthScreen() {
                         placeholder="Username"
                         keyboardType="default"
                         autoCapitalize='none'
+                        autoCorrect={false}
                     />
 
                     <TextInput
@@ -77,6 +81,8 @@ function AuthScreen() {
                         placeholder="Password"
                         keyboardType="default"
                         autoCapitalize='none'
+                        secureTextEntry={true}
+                        autoCorrect={false}
                     />
                 </SafeAreaView>
 
