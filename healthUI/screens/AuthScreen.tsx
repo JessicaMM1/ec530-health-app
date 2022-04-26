@@ -1,5 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, TextInput, TouchableOpacity, Alert } from 'react-native';
+import {
+    View, Text, StyleSheet, SafeAreaView, TextInput,
+    TouchableOpacity, Alert, TouchableWithoutFeedback, Keyboard
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../types';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -70,47 +73,49 @@ function AuthScreen() {
     }
 
     return (
-        <View style={styles.container}>
-            <View style={styles.titlePosition}>
-                <Text style={styles.title}>Log in</Text>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
+                <View style={styles.titlePosition}>
+                    <Text style={styles.title}>Log in</Text>
 
-                <SafeAreaView style={styles.safeAreaPos}>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={onChangeAcc}
-                        value={textAcc}
-                        placeholder="Username"
-                        keyboardType="default"
-                        autoCapitalize='none'
-                        autoCorrect={false}
-                    />
+                    <SafeAreaView style={styles.safeAreaPos}>
+                        <TextInput
+                            style={styles.input}
+                            onChangeText={onChangeAcc}
+                            value={textAcc}
+                            placeholder="Username"
+                            keyboardType="default"
+                            autoCapitalize='none'
+                            autoCorrect={false}
+                        />
 
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={onChangePw}
-                        value={textPw}
-                        placeholder="Password"
-                        keyboardType="default"
-                        autoCapitalize='none'
-                        secureTextEntry={true}
-                        autoCorrect={false}
-                    />
-                </SafeAreaView>
+                        <TextInput
+                            style={styles.input}
+                            onChangeText={onChangePw}
+                            value={textPw}
+                            placeholder="Password"
+                            keyboardType="default"
+                            autoCapitalize='none'
+                            secureTextEntry={true}
+                            autoCorrect={false}
+                        />
+                    </SafeAreaView>
 
-                <TouchableOpacity style={styles.loginbutton} onPress={login}>
+                    <TouchableOpacity style={styles.loginbutton} onPress={login}>
 
-                    <Text style={styles.loginText}>LOGIN</Text>
+                        <Text style={styles.loginText}>LOGIN</Text>
 
-                </TouchableOpacity>
+                    </TouchableOpacity>
 
-                <TouchableOpacity style={styles.regbutton} onPress={() => navigation.navigate('Modal')}>
+                    <TouchableOpacity style={styles.regbutton} onPress={() => navigation.navigate('Modal')}>
 
-                    <Text style={styles.regText}>REGISTER</Text>
+                        <Text style={styles.regText}>REGISTER</Text>
 
-                </TouchableOpacity>
+                    </TouchableOpacity>
 
+                </View>
             </View>
-        </View>
+        </TouchableWithoutFeedback>
     );
 }
 
@@ -149,6 +154,7 @@ const styles = StyleSheet.create({
     },
     loginbutton: {
         alignItems: 'center',
+        alignSelf: 'center',
         width: '40%',
         backgroundColor: 'lightskyblue',
         padding: 10,
@@ -161,6 +167,7 @@ const styles = StyleSheet.create({
     },
     regbutton: {
         alignItems: 'center',
+        alignSelf: 'center',
         width: '40%',
         backgroundColor: 'lightskyblue',
         padding: 10,

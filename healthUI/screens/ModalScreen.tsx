@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Platform, StyleSheet, Button, TextInput, SafeAreaView, Alert, TouchableOpacity } from 'react-native';
+import {
+  Platform, StyleSheet, TextInput,
+  SafeAreaView, Alert, TouchableOpacity, KeyboardAvoidingView,
+  TouchableWithoutFeedback, Keyboard, ScrollView
+} from 'react-native';
 
 import { CheckBox } from 'react-native-elements';
 import { Text, View } from '../components/Themed';
@@ -124,92 +128,102 @@ export default function ModalScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.titlePos}>
-        <Text style={styles.title}>Register</Text>
-      </View>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.container}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ScrollView>
+            <View style={styles.titlePos}>
+              <Text style={styles.title}>Register</Text>
+            </View>
+            <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
 
-      <SafeAreaView style={styles.safeAreaPos}>
-        <TextInput
-          style={styles.input}
-          value={firstName}
-          onChangeText={setFirstName}
-          placeholder="First name"
-          keyboardType='default'
-        />
+            <SafeAreaView style={styles.safeAreaPos}>
+              <TextInput
+                style={styles.input}
+                value={firstName}
+                onChangeText={setFirstName}
+                placeholder="First name"
+                keyboardType='default'
+              />
 
-        <TextInput
-          style={styles.input}
-          value={lastName}
-          onChangeText={setLastName}
-          placeholder="Last name"
-          keyboardType='default'
-        />
+              <TextInput
+                style={styles.input}
+                value={lastName}
+                onChangeText={setLastName}
+                placeholder="Last name"
+                keyboardType='default'
+              />
 
-        <TextInput
-          style={styles.input}
-          value={dob}
-          onChangeText={setDob}
-          placeholder="DOB: mm/dd/yyyy"
-          keyboardType='default'
-          maxLength={10}
-        />
-      </SafeAreaView>
+              <TextInput
+                style={styles.input}
+                value={dob}
+                onChangeText={setDob}
+                placeholder="DOB: mm/dd/yyyy"
+                keyboardType='default'
+                maxLength={10}
+              />
+            </SafeAreaView>
 
-      <Text style={styles.text}>Select your role:</Text>
+            <Text style={styles.text}>Select your role:</Text>
 
-      <View style={styles.rbcontainer}>
-        <CheckBox
-          title="Doctor"
-          textStyle={styles.text}
-          checked={isDoctor}
-          checkedIcon='dot-circle-o'
-          uncheckedIcon='circle-o'
-          onPress={roleDoctor}
-          containerStyle={styles.rbuttons}
-        />
+            <View style={styles.rbcontainer}>
+              <CheckBox
+                title="Doctor"
+                textStyle={styles.rbtext}
+                checked={isDoctor}
+                checkedIcon='dot-circle-o'
+                uncheckedIcon='circle-o'
+                onPress={roleDoctor}
+                containerStyle={styles.rbuttons}
+              />
 
-        <CheckBox
-          title="Patient"
-          textStyle={styles.text}
-          checked={isPatient}
-          checkedIcon='dot-circle-o'
-          uncheckedIcon='circle-o'
-          onPress={rolePatient}
-          containerStyle={styles.rbuttons}
-        />
-      </View>
+              <CheckBox
+                title="Patient"
+                textStyle={styles.rbtext}
+                checked={isPatient}
+                checkedIcon='dot-circle-o'
+                uncheckedIcon='circle-o'
+                onPress={rolePatient}
+                containerStyle={styles.rbuttons}
+              />
+            </View>
 
-      <Text style={styles.text}>Enter new login information:</Text>
-      <SafeAreaView style={styles.safeAreaPos}>
-        <TextInput
-          style={styles.input}
-          value={username}
-          onChangeText={setUsername}
-          placeholder="Username"
-          keyboardType='default'
-          autoCapitalize='none'
-          autoCorrect={false}
-          maxLength={10}
-        />
+            <Text style={styles.text}>Enter new login information:</Text>
+            <SafeAreaView style={styles.safeAreaPos}>
+              <TextInput
+                style={styles.input}
+                value={username}
+                onChangeText={setUsername}
+                placeholder="Username"
+                keyboardType='default'
+                autoCapitalize='none'
+                autoCorrect={false}
+                maxLength={10}
+              />
 
-        <TextInput
-          style={styles.input}
-          value={password}
-          onChangeText={setPassword}
-          placeholder="Password"
-          keyboardType='default'
-          autoCapitalize='none'
-          autoCorrect={false}
-        />
-      </SafeAreaView>
+              <TextInput
+                style={styles.input}
+                value={password}
+                onChangeText={setPassword}
+                placeholder="Password"
+                keyboardType='default'
+                autoCapitalize='none'
+                autoCorrect={false}
+              />
+            </SafeAreaView>
+            <TouchableOpacity style={styles.button} onPress={register}>
+              <Text style={styles.title}>SUBMIT</Text>
+            </TouchableOpacity>
+            <View style={styles.empty} />
+          </ScrollView>
+        </TouchableWithoutFeedback>
 
-      <TouchableOpacity style={styles.button} onPress={register}>
-        <Text style={styles.title}>SUBMIT</Text>
-      </TouchableOpacity>
 
-      {/* Use a light status bar on iOS to account for the black space above the modal */}
-      <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
+        {/* Use a light status bar on iOS to account for the black space above the modal */}
+        <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
+
+      </KeyboardAvoidingView>
     </View>
   );
 }
@@ -217,8 +231,8 @@ export default function ModalScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'flex-start',
+    // alignItems: 'center',
+    // justifyContent: 'flex-start',
   },
   title: {
     fontSize: 20,
@@ -246,7 +260,8 @@ const styles = StyleSheet.create({
   },
   rbcontainer: {
     flexDirection: 'row',
-    marginVertical: 20
+    marginVertical: 20,
+    alignSelf: 'center'
   },
   rbuttons: {
     backgroundColor: 'white',
@@ -254,14 +269,26 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
     width: '40%',
     backgroundColor: 'lightskyblue',
     padding: 10,
     marginTop: 15,
+    marginHorizontal: 90,
     borderRadius: 15
   },
   text: {
     fontSize: 20,
-    fontWeight: 'normal'
+    fontWeight: 'normal',
+    marginHorizontal: 50,
+    alignSelf: 'center'
+  },
+  rbtext: {
+    fontSize: 20,
+    fontWeight: 'normal',
+  },
+  empty: {
+    marginVertical: 200,
   }
 });

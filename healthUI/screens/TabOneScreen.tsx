@@ -9,7 +9,16 @@ import { RootTabScreenProps } from '../types';
 
 export default function TabOneScreen({ route, navigation }: RootTabScreenProps<'TabOne'>) {
 
-  const {username, password, role, firstname, lastname, DOB, assigneddoctor} = route.params
+  const { username, password, role, firstname, lastname, DOB, assigneddoctor } = route.params
+
+  var displayDoctor: string = ""
+  var displaydob: string = ""
+  if (role == "patient") {
+    displayDoctor = "Assigned Doctor: " + assigneddoctor
+    displaydob = "Date of Birth: " + DOB
+
+  }
+
 
   return (
     <View style={styles.container}>
@@ -17,12 +26,12 @@ export default function TabOneScreen({ route, navigation }: RootTabScreenProps<'
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
 
       <View style={styles.textView}>
-        <Text style={styles.text}>username: {username}</Text>
+        <Text style={styles.text}>Username: {username}</Text>
         <Text style={styles.text}>First Name: {firstname}</Text>
         <Text style={styles.text}>Last Name: {lastname}</Text>
         <Text style={styles.text}>Role: {role}</Text>
-        <Text style={styles.text}>Date of Birth: {DOB}</Text>
-        <Text style={styles.text}>Assigned Doctor: {assigneddoctor}</Text>
+        <Text style={styles.text}>{displaydob}</Text>
+        <Text style={styles.text}>{displayDoctor}</Text>
 
       </View>
 
