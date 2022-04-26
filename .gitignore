@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 node_modules/
 .DS_Store
-
+.expo/
 
