@@ -1,4 +1,4 @@
-# ec530-health-app
+# EC530 Health App
 EC530 Final Project
 
 # Description
@@ -14,18 +14,20 @@ the app: patients, medical professionals, administrators.
 
 ### REST API (for user module)
 
-- The resf api for user module is deploy to [google cloud](https://health-app-2022.ue.r.appspot.com/users)
-- There's one point: /users
-- Two function calls: GET and POST
+- The resf api for user module is deployed to [google cloud](https://health-app-2022.ue.r.appspot.com/users)
+  
+### `/users`
+
 - GET function:
-	- The GET method request user profile data from the Mongodb based on username,
-	then output the user profile as json format
+	- The GET method requests user profile data from MongoDB
+    	- Input: username
+        - Output: user profile in JSON format
 
 	- Error handling: If the username is not found, the following error is returned:
 	`{message: 'User not found'}`
 
 - POST function:
-	- The POST method creates new user profile to Mongodb based on provided information, including
+	- The POST method creates new user profile to MongoDB based on provided information, including
 	first name, last name, username, etc.
 
 - Data structure
@@ -77,9 +79,10 @@ If one of the variables above is missing, the following error message shows:
 ```
 
 ## Database
-- Mongodb is used for the database to store user information, it is connected to google cloud and access, controlled, queried, using 'restUserAPI.py'.
+- MongoDB is used for the database to store user information, it is connected to google cloud and access, controlled and queried by 'restUserAPI.py'.
 
-- example
+- Example 
+  
 The below image shows the data collections of user profiles
 >![Screenshot](./images/mongodb.png)
 
