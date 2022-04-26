@@ -90,7 +90,7 @@ function BottomTabNavigator() {
         name="TabTwo"
         component={TabTwoScreen}
         options={{
-          title: 'Tab Two',
+          title: 'Chat',
           tabBarIcon: ({ color }) => <TabBarIcon name="comment" color={color} />,
         }}
       />
