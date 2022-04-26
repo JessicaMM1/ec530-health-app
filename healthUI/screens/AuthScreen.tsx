@@ -48,7 +48,20 @@ function AuthScreen() {
             if (userprofile == null) {
                 Alert.alert("Incorrect username or password")
             } else {
-                navigation.navigate('Root')
+                //console.log(userprofile["basicInfo"]["first_name"])
+                //console.log(typeof userprofile["basicInfo"]["first_name"])
+                navigation.navigate('Root', {
+                    screen: 'TabOne',
+                    params: {
+                        username: userprofile["username"],
+                        password: userprofile["password"],
+                        role: userprofile["role"],
+                        firstname: userprofile["basicInfo"]["first_name"],
+                        lastname: userprofile["basicInfo"]["last_name"],
+                        DOB: userprofile["attributes"]["DOB"],
+                        assigneddoctor: userprofile["attributes"]["assigned_doctor"],
+                    },
+                });
             }
         }).catch((error) => {
             console.error(error);

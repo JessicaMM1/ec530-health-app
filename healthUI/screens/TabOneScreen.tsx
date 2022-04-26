@@ -7,21 +7,23 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 
-export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+export default function TabOneScreen({ route, navigation }: RootTabScreenProps<'TabOne'>) {
+
+  const {username, password, role, firstname, lastname, DOB, assigneddoctor} = route.params
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome</Text>
+      <Text style={styles.title}>Welcome {firstname}</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
 
-      <View>
-        <Text style={styles.text}>Name Placeholder</Text>
-        <Text style={styles.text}>Role placeholder</Text>
-        <Text style={styles.text}>DOB placeholder</Text>
-        {/* <Text>{f_name}</Text>
-        <Text>{l_name}</Text>
-        <Text>{role}</Text>
-        <Text>{dob}</Text> */}
+      <View style={styles.textView}>
+        <Text style={styles.text}>username: {username}</Text>
+        <Text style={styles.text}>First Name: {firstname}</Text>
+        <Text style={styles.text}>Last Name: {lastname}</Text>
+        <Text style={styles.text}>Role: {role}</Text>
+        <Text style={styles.text}>Date of Birth: {DOB}</Text>
+        <Text style={styles.text}>Assigned Doctor: {assigneddoctor}</Text>
+
       </View>
 
 
@@ -46,7 +48,13 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   text: {
-    fontSize: 20,
-    marginVertical: 5
+    fontSize: 18,
+    marginVertical: 5,
+  },
+  textView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    flexDirection: 'column',
   }
 });
