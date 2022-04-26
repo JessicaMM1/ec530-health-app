@@ -14,7 +14,7 @@ the app: patients, medical professionals, administrators.
 
 ### REST API (for user module)
 
-- The resf api for user module is deploy to [google cloud](https://health-app-2022.ue.r.appspot.com)
+- The resf api for user module is deploy to [google cloud](https://health-app-2022.ue.r.appspot.com/users)
 - There's one point: /users
 - Two function calls: GET and POST
 - GET function:
@@ -31,7 +31,8 @@ the app: patients, medical professionals, administrators.
 - Data structure
 
 Doctor data field:
-`"basicInfo": {
+```python
+"basicInfo": {
              _id: string,
              basicInfo: {
              	first_name: string,
@@ -44,10 +45,11 @@ Doctor data field:
              	patients: list,
              },
          },
-`
+```
 
 Patient data field:
-`"basicInfo": {
+```python
+"basicInfo": {
              _id: string,
              basicInfo: {
              	first_name: string,
@@ -61,15 +63,18 @@ Patient data field:
              	assigned_doctor: string
              },
          },
-`
+```
 
 - Error Message
 If one of the variables above is missing, the following error message shows:
-`{
-	"message":{
-		:"f_name": "Missing required parameter in the post body"
+```python 
+{
+	"message":
+    {
+	    "f_name": "Missing required parameter in the post body"
 	}
-}`
+}
+```
 
 ## Database
 - Mongodb is used for the database to store user information, it is connected to google cloud and access, controlled, queried, using 'restUserAPI.py'.
@@ -79,8 +84,14 @@ The below image shows the data collections of user profiles
 >![Screenshot](./images/mongodb.png)
 
 ## User Interface
+Login
+>![Screenshot](./images/login.PNG)
 
+Registration 
+>![Screenshot](./images/IMG_3955.PNG)
 
+Successful Registration
+>![Screenshot](./images/IMG_3956.PNG)
 
-
-
+User Profile
+>![Screenshot](./images/profilepage.PNG)
