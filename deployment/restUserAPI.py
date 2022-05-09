@@ -62,12 +62,14 @@ class restWeb(Resource):
         
         # print(item_details)
         # return item_details, 200
-
-    #  curl -X GET -d 'username=rhetty_terrier' -d  'password=12121' http://127.0.0.1:5000/users   
-# curl -X GET http://127.0.0.1:5000/users/?username=hello&password=bye
-# curl -d 'username=rhetty_TERRIER' http://127.0.0.1:5000/users
-
+        
         # return create_user("userInfo_1290381.json", "903810847"), 200
+
+        # How to call with curl
+        #  curl -X GET -d 'username=rhetty_terrier' -d  'password=12121' http://127.0.0.1:5000/users   
+        # curl -X GET http://127.0.0.1:5000/users/?username=hello&password=bye
+        # curl -d 'username=rhetty_TERRIER' http://127.0.0.1:5000/users
+
 
     def post(self):
         '''
@@ -130,7 +132,8 @@ class restWeb(Resource):
 
             return response, 200
 
-#curl -X POST http://127.0.0.1:5000/users?name=rhett&type=doctor&gender=male&accName=rt123&password=123456
+# How to call with curl
+# curl -X POST http://127.0.0.1:5000/users?name=rhett&type=doctor&gender=male&accName=rt123&password=123456
 # curl -d 'name=rhett' -d 'type=doctrs' -d 'gender=male' -d 'accName=12322v' -d 'password=12121' http://127.0.0.1:5000/users 
 # CORRECT: curl -d 'f_name=rhett' -d 'l_name=terrier' -d 'role=doctor' -d 'DOB=01/01/2000' -d 'assigned_doctor=dr.juana' -d 'password=12121' http://127.0.0.1:5000/users
 # CORRECT: curl -d 'f_name=daddy' -d 'l_name=brown' -d 'role=patient' -d 'DOB=01/01/1901' -d 'assigned_doctor=dr.rhett' -d 'username=daddy' -d 'password=1212' https://health-app-2022.ue.r.appspot.com/users
