@@ -1,7 +1,8 @@
 import socket
 import threading
 
-targetAddr = "127.0.0.1"
+#targetAddr = "127.0.0.1"
+targetAddr =  "10.192.55.208"
 targetPort = 9999
 # INET means IPv4, DGRAM means UDP
 soc = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

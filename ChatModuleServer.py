@@ -1,7 +1,8 @@
 import socket
 
 defaultPort = 9999
-defaultAddr = '127.0.0.1'
+#defaultAddr = '127.0.0.1'
+defaultAddr = '0.0.0.0'
 soc = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 soc.bind((defaultAddr, defaultPort))
 
