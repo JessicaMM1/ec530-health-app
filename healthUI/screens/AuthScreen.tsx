@@ -11,6 +11,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 type authScreenProp = StackNavigationProp<RootStackParamList, 'Auth'>;
 
 function AuthScreen() {
+
+    globalThis.username = "";
     const navigation = useNavigation<authScreenProp>();
 
     const [textAcc, onChangeAcc] = React.useState("");
@@ -27,7 +29,7 @@ function AuthScreen() {
 
     const login = () => {
         //fetch('https://example.com/data').then((response) => response.json()).then((json) => {
-        fetch('https://health-app-2022.ue.r.appspot.com/users').then((response) => {
+        fetch('https://health-app-2022.ue.r.appspot.com/check-user').then((response) => {
 
             // Returns Promise
             return response.json()
@@ -54,6 +56,8 @@ function AuthScreen() {
             } else {
                 //console.log(userprofile["basicInfo"]["first_name"])
                 //console.log(typeof userprofile["basicInfo"]["first_name"])
+                globalThis.username = userprofile["username"]
+
                 navigation.navigate('Root', {
                     screen: 'TabOne',
                     params: {
