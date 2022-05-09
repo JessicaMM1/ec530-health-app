@@ -14,7 +14,7 @@ the app: patients, medical professionals, administrators.
 
 ### REST API (for user module)
 
-- The resf api for user module is deployed to [google cloud](https://health-app-2022.ue.r.appspot.com/users)
+- The rest api for user module is deployed to [google cloud](https://health-app-2022.ue.r.appspot.com/users)
   
 ### `/users`
 
@@ -78,6 +78,35 @@ If one of the variables above is missing, the following error message shows:
 }
 ```
 
+### REST API (For chat module)
+
+- The rest api for chat module is deployed to [google cloud](https://health-app-2022.ue.r.appspot.com/users)
+
+
+#### `/chatsGet`
+
+- Get function: request chat information from the database.
+
+
+#### `/new-msg`
+
+- Post function: store chat information to the database.
+
+#### data structure
+
+chat message data field:
+
+```python
+{
+    _id: str
+    date: str
+    recipient: str
+    sender: str
+    text: str
+}
+
+```
+
 ## Database
 - MongoDB is used for the database to store user information, it is connected to google cloud and access, controlled and queried by 'restUserAPI.py'.
 
@@ -98,3 +127,7 @@ Successful Registration
 
 User Profile
 >![Screenshot](./images/profilepage.PNG)
+
+Chat Message
+>![Screenshot](./images/chatmessage.PNG)
+
